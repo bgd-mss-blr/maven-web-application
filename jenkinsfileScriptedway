@@ -1,0 +1,40 @@
+node{
+    
+def mavenHome = tool name: "maven3.9.5"    
+
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
+
+
+stage('CheckOut'){
+git credentialsId: 'a8b5434d-03f2-4767-ae49-af49ee8a8aa1', url: 'https://github.com/bgd-mss-blr/maven-web-application.git'
+}
+
+stage('Build'){
+sh "${mavenHome}/bin/mvn clean package"
+}
+/*
+stage('ExecuteSonarQubeReport'){
+sh "${mavenHome}/bin/mvn sonar:sonar"
+}
+
+stage('UploadArtifacts'){
+sh "${mavenHome}/bin/mvn deploy"
+}
+
+
+stage('Deploy Application into tomcat'){ 
+sshagent(['cfada613-7a9a-4fa6-8c2e-757cc69c0836']) {
+  sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@15.206.167.17:/opt/apache-tomcat-9.0.54/webapps/"  
+}
+}
+
+stage('Email Notification'){
+mail bcc: '', body: '''Build Over
+
+Regards,
+Dodawad''', cc: '', from: '', replyTo: '', subject: 'Build Over', to: 'dodawad13@gmail.com'
+}
+
+*/
+
+}
