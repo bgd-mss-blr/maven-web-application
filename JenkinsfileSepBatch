@@ -1,4 +1,4 @@
-node('wallmart-node'){
+node('wallmart'){
 
 
 //echo "GitHub BranhName ${env.BRANCH_NAME}"
